@@ -61,6 +61,15 @@ public class LogicaNegocio {
         addAeropuerto(new Aeropuerto("OSL", "Aeropuerto de Oslo-Gardermoen", "00000"));
     }
 
+    private static void initializeVuelosDiario() {
+        String rutaArchivoCSV = "src/main/resources/vuelos_diarios.csv"; // Ruta al archivo CSV
+        List<VueloDiario> vuelosDiarios = leerCSVVuelosDiarios(rutaArchivoCSV); // Lee los vuelos diarios desde el archivo CSV
+
+        for (VueloDiario vueloDiario : vuelosDiarios) {
+            addVueloDiario(vueloDiario); // Agrega cada vuelo diario a la lista o almacén correspondiente
+        }
+    }
+
     private static List<Aeropuerto> lstAeropuertos = new ArrayList<Aeropuerto>();
 
     /**
@@ -257,26 +266,26 @@ public class LogicaNegocio {
         return leerCSVVuelosBase(rutaArchivoCSV);
     }
 
-   public static ValidationResult addVueloBase(VueloBase vuelo) {
-    ValidationResult retValue = new ValidationResult(true, "");
-    String rutaArchivoCSV = "src/main/resources/vuelos_base.csv";
-    List<VueloBase> vuelos = leerCSVVuelosBase(rutaArchivoCSV);
+    public static ValidationResult addVueloBase(VueloBase vuelo) {
+        ValidationResult retValue = new ValidationResult(true, "");
+        String rutaArchivoCSV = "src/main/resources/vuelos_base.csv";
+        List<VueloBase> vuelos = leerCSVVuelosBase(rutaArchivoCSV);
 
-    // Verificar si el vuelo ya existe
-    boolean existe = vuelos.stream()
-                           .anyMatch(v -> v.getCodigoVuelo().equals(vuelo.getCodigoVuelo()));
-    
-    if (!existe) {
-        vuelos.add(vuelo); // Añadir el nuevo vuelo a la lista
+        // Verificar si el vuelo ya existe
+        boolean existe = vuelos.stream()
+                .anyMatch(v -> v.getCodigoVuelo().equals(vuelo.getCodigoVuelo()));
 
-        // Reescribir el archivo CSV con la lista actualizada
-        generarCSVVueloBase(vuelos); // Asegúrate de que este método reescribe todo el archivo CSV
-    } else {
-        retValue = new ValidationResult(false, "El vuelo base ya existe. No se añadirá a la lista.");
+        if (!existe) {
+            vuelos.add(vuelo); // Añadir el nuevo vuelo a la lista
+
+            // Reescribir el archivo CSV con la lista actualizada
+            generarCSVVueloBase(vuelos); // Asegúrate de que este método reescribe todo el archivo CSV
+        } else {
+            retValue = new ValidationResult(false, "El vuelo base ya existe. No se añadirá a la lista.");
+        }
+
+        return retValue;
     }
-
-    return retValue;
-}
 
     public static VueloBase getVueloBaseByCodigo(String codigo) {
         String rutaArchivoCSV = "src/main/resources/vuelos_base.csv";
@@ -431,15 +440,47 @@ public class LogicaNegocio {
     private static List<VueloDiario> lstVuelosDiarios = new ArrayList<VueloDiario>();
 
     public static List<VueloDiario> getAllVuelosDiarios() {
-        return new ArrayList<VueloDiario>();
+        // Define la ruta del archivo CSV
+        String rutaArchivo = "ruta/del/archivo.csv"; // Reemplaza con la ruta correcta
+        List<VueloDiario> vuelosDiarios = leerCSVVuelosDiarios(rutaArchivo);
+
+        return vuelosDiarios;
     }
 
-    public static VueloDiario getVueloDiaropByCodigoVueloBase(String codigo) {
-        return new VueloDiario();
+    public static VueloDiario getVueloDiarioByCodigoVueloBase(String codigo) {
+        // Define la ruta del archivo CSV
+        String rutaArchivo = "ruta/del/archivo.csv"; // Reemplaza con la ruta correcta
+
+        // Llama a leerCSVVuelosDiarios para obtener la lista de vuelos diarios desde el archivo CSV
+        List<VueloDiario> vuelosDiarios = leerCSVVuelosDiarios(rutaArchivo);
+
+        // Busca el vuelo diario con el código de vuelo base especificado
+        for (VueloDiario vueloDiario : vuelosDiarios) {
+            if (vueloDiario.getCodigoVueloBase().equals(codigo)) {
+                return vueloDiario;
+            }
+        }
+
+        // Si no se encuentra, devuelve null o maneja la situación según tus necesidades
+        return null;
     }
 
     public static VueloDiario getVueloDiarioByFecha(Date fecha) {
-        return new VueloDiario();
+        // Define la ruta del archivo CSV
+        String rutaArchivo = "ruta/del/archivo.csv"; // Reemplaza con la ruta correcta
+
+        // Llama a leerCSVVuelosDiarios para obtener la lista de vuelos diarios desde el archivo CSV
+        List<VueloDiario> vuelosDiarios = leerCSVVuelosDiarios(rutaArchivo);
+
+        // Busca el vuelo diario con la fecha especificada
+        for (VueloDiario vueloDiario : vuelosDiarios) {
+            if (vueloDiario.getFechaVuelo().equals(fecha)) {
+                return vueloDiario;
+            }
+        }
+
+        // Si no se encuentra, devuelve null o maneja la situación según tus necesidades
+        return null;
     }
 
     public static Date getFechaByHora(int horas, int minutos) {
@@ -454,5 +495,81 @@ public class LogicaNegocio {
         return adf.format(fecha);
     }
 
+    public static void generarCSVVueloDiario(List<VueloDiario> vuelosDiarios) {
+        String rutaArchivoCSV = "src/main/resources/vuelos_diarios.csv";
+        File file = new File(rutaArchivoCSV);
+
+        try (FileWriter writer = new FileWriter(file)) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+
+            // Escribir la cabecera del CSV
+            writer.append("Código Vuelo Base,Fecha Vuelo,Hora Salida,Hora Llegada,Num. Plazas Ocupadas,Precio Vuelo\n");
+
+            // Escribir los datos de cada vuelo diario
+            for (VueloDiario vueloDiario : vuelosDiarios) {
+                writer.append(String.format("%s,%s,%s,%s,%d,%.2f\n",
+                        vueloDiario.getCodigoVueloBase(),
+                        dateFormat.format(vueloDiario.getFechaVuelo()),
+                        dateFormat.format(vueloDiario.getHoraSalida()),
+                        dateFormat.format(vueloDiario.getHoraLlegada()),
+                        vueloDiario.getNumeroPlazasOcupadas(),
+                        vueloDiario.getPrecioVuelo()));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static List<VueloDiario> leerCSVVuelosDiarios(String rutaArchivo) {
+        List<VueloDiario> vuelosDiarios = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+
+        try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
+            String linea;
+            br.readLine(); // Omitir la cabecera del CSV
+
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split(",");
+
+                // Asegúrate de que partes tiene la cantidad correcta de elementos
+                if (partes.length == 7) {
+                    VueloDiario vueloDiario = new VueloDiario();
+                    vueloDiario.setCodigoVueloBase(partes[0]);
+                    vueloDiario.setNumeroPlazasOcupadas(Integer.parseInt(partes[1]));
+                    vueloDiario.setHoraSalida(dateFormat.parse(partes[2]));
+                    vueloDiario.setHoraLlegada(dateFormat.parse(partes[3]));
+                    vueloDiario.setFechaVuelo(new Date()); // Ajusta la fecha de acuerdo a tus requerimientos
+                    vueloDiario.setPrecioVuelo(0.0f); // Ajusta el precio según tus necesidades
+                    vueloDiario.setVueloBase(null); // Ajusta el vuelo base si es necesario
+
+                    vuelosDiarios.add(vueloDiario);
+                }
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        return vuelosDiarios;
+    }
+
     //</editor-fold>
+    private static void addVueloDiario(VueloDiario vueloDiario) {
+        // Asigna los valores obtenidos del archivo CSV
+        String codigoVueloBase = vueloDiario.getCodigoVueloBase(); // Puedes obtenerlo si está presente en el archivo CSV
+        Date fechaVuelo = vueloDiario.getFechaVuelo(); // Puedes obtenerlo si está presente en el archivo CSV
+        Date horaSalida = vueloDiario.getHoraSalida(); // Puedes obtenerlo si está presente en el archivo CSV
+        Date horaLlegada = vueloDiario.getHoraLlegada(); // Puedes obtenerlo si está presente en el archivo CSV
+
+        // Los demás campos se dejan vacíos
+        int numeroPlazasOcupadas = 0; // Puedes asignar un valor predeterminado o dejarlo en 0
+        float precioVuelo = 0.0f; // Puedes asignar un valor predeterminado o dejarlo en 0.0f
+        VueloBase vueloBase = null; // Puedes asignar un valor predeterminado o dejarlo en null
+
+        // Crea una instancia de VueloDiario con los valores obtenidos
+        VueloDiario nuevoVueloDiario = new VueloDiario(codigoVueloBase, fechaVuelo, horaSalida, horaLlegada, numeroPlazasOcupadas, precioVuelo, vueloBase);
+
+        // Agrega el nuevo vuelo diario a la lista o almacén correspondiente
+        // Por ejemplo, si tienes una lista llamada lstVuelosDiarios:
+        lstVuelosDiarios.add(nuevoVueloDiario);
+    }
 }

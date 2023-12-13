@@ -87,6 +87,7 @@ public class VueloBase {
     }
 
     public String getCodigoAeropuertoOrigen() {
+        this.aeropuertoOrigen = LogicaNegocio.getAeropuertoByCodigoIATA(codigoAeropuertoOrigen);
         return codigoAeropuertoOrigen;
     }
 
@@ -96,6 +97,7 @@ public class VueloBase {
     }
 
     public Aeropuerto getAeropuertoOrigen() {
+        this.codigoAeropuertoOrigen = aeropuertoOrigen.getCodigoIATA();
         return aeropuertoOrigen;
     }
 
