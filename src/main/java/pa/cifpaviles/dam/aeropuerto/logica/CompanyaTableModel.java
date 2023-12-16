@@ -22,10 +22,12 @@ public class CompanyaTableModel extends AbstractTableModel {
         columnNames.add("Código");
         columnNames.add("Nombre");
         columnNames.add("Tel. Información");
+        columnNames.add("Municipio");  // Añadir el nombre de la columna Municipio
         columnClasses.add(String.class);
         columnClasses.add(String.class);
         columnClasses.add(String.class);
         columnClasses.add(String.class);
+        columnClasses.add(String.class);  // Añadir la clase correspondiente para Municipio
     }
     
 
@@ -42,9 +44,7 @@ public class CompanyaTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Companya current = lstRegistros.get(rowIndex);
-        if (current != null
-                && columnIndex >= 0
-                && columnIndex < getColumnCount()) {
+        if (current != null && columnIndex >= 0 && columnIndex < getColumnCount()) {
             switch (columnIndex) {
                 case 0:
                     return current.getPrefijo();
@@ -54,14 +54,14 @@ public class CompanyaTableModel extends AbstractTableModel {
                     return current.getNombre();
                 case 3:
                     return current.getTelefonoInformacion();
+                case 4:
+                    return current.getMunicipio();  // Devolver el municipio
                 default:
                     return "";
             }
-
-        }
-        else
+        } else {
             return "";
-        
+        }
     }
 
     @Override

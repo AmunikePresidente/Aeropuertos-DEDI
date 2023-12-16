@@ -4,7 +4,9 @@ import java.awt.Window;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import javax.swing.SwingUtilities;
+import pa.cifpaviles.dam.aeropuerto.dto.Aeropuerto;
 import pa.cifpaviles.dam.aeropuerto.dto.Companya;
 import pa.cifpaviles.dam.aeropuerto.logica.LogicaNegocio;
 import pa.cifpaviles.dam.aeropuerto.dto.Municipio;
@@ -14,7 +16,7 @@ import pa.cifpaviles.dam.aeropuerto.gui.FrmVuelosBase;
 
 public class EditarVueloBase extends javax.swing.JPanel {
 
- private VueloBase vueloBase;
+    private VueloBase vueloBase = this.vueloBase;
     private FrmVuelosBase frmVuelosBase;
 
     public VueloBase getVueloBase() {
@@ -51,37 +53,39 @@ public class EditarVueloBase extends javax.swing.JPanel {
             }
 
             txtDOperacion.setText(vueloBase.getDiasOperacion());
-            txtCodAerOrigen.setText(vueloBase.getCodigoAeropuertoOrigen());
-            txtCodAerDestino.setText(vueloBase.getCodigoAeropuertoDestino());
+            cbAeroDestino.setSelectedItem(vueloBase.getCodigoAeropuertoDestino());
+            cbAeroOrigen.setSelectedItem(vueloBase.getCodigoAeropuertoOrigen());
         }
     }
 
-   public EditarVueloBase(FrmVuelosBase frmVuelosBase, VueloBase vueloBase1) {
-    initComponents();
-    this.frmVuelosBase = frmVuelosBase;
-    this.vueloBase = vueloBase1;
-    if (vueloBase1 != null && !vueloBase1.getCodigoVuelo().isBlank()) {
-        txtCodVuelo.setText(vueloBase1.getCodigoVuelo());
-        txtNPlazas.setText(String.valueOf(vueloBase1.getNumeroPlazas()));
+    public EditarVueloBase(FrmVuelosBase frmVuelosBase, VueloBase vueloBase1) {
+        initComponents();
+        this.frmVuelosBase = frmVuelosBase;
+        this.vueloBase = vueloBase1;
+        inicializarComboboxAeropuertos();
+        
+        if (vueloBase1 != null && !vueloBase1.getCodigoVuelo().isBlank()) {
+            txtCodVuelo.setText(vueloBase1.getCodigoVuelo());
+            txtNPlazas.setText(String.valueOf(vueloBase1.getNumeroPlazas()));
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-        if (vueloBase1.getHoraSalida() != null) {
-            txtHoraSalida.setText(dateFormat.format(vueloBase1.getHoraSalida()));
-        } else {
-            txtHoraSalida.setText("");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+            if (vueloBase1.getHoraSalida() != null) {
+                txtHoraSalida.setText(dateFormat.format(vueloBase1.getHoraSalida()));
+            } else {
+                txtHoraSalida.setText("");
+            }
+
+            if (vueloBase1.getHoraLlegada() != null) {
+                TxtHoraLlegada.setText(dateFormat.format(vueloBase1.getHoraLlegada()));
+            } else {
+                TxtHoraLlegada.setText("");
+            }
+
+            txtDOperacion.setText(vueloBase1.getDiasOperacion());
+            cbAeroDestino.setSelectedItem(vueloBase1.getCodigoAeropuertoDestino());
+            cbAeroOrigen.setSelectedItem(vueloBase1.getCodigoAeropuertoOrigen());
         }
-
-        if (vueloBase1.getHoraLlegada() != null) {
-            TxtHoraLlegada.setText(dateFormat.format(vueloBase1.getHoraLlegada()));
-        } else {
-            TxtHoraLlegada.setText("");
-        }
-
-        txtDOperacion.setText(vueloBase1.getDiasOperacion());
-        txtCodAerOrigen.setText(vueloBase1.getCodigoAeropuertoOrigen());
-        txtCodAerDestino.setText(vueloBase1.getCodigoAeropuertoDestino());
     }
-}
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -98,9 +102,9 @@ public class EditarVueloBase extends javax.swing.JPanel {
         TxtHoraLlegada = new javax.swing.JTextField();
         txtDOperacion = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        txtCodAerOrigen = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtCodAerDestino = new javax.swing.JTextField();
+        cbAeroOrigen = new javax.swing.JComboBox<>();
+        cbAeroDestino = new javax.swing.JComboBox<>();
 
         lblCodigo.setText("Nº plazas:");
 
@@ -139,13 +143,19 @@ public class EditarVueloBase extends javax.swing.JPanel {
 
         jLabel3.setText("Codigo Aeropuerto Origen:");
 
-        txtCodAerOrigen.addActionListener(new java.awt.event.ActionListener() {
+        jLabel4.setText("Codigo Aeropuerto Destino");
+
+        cbAeroOrigen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCodAerOrigenActionPerformed(evt);
+                cbAeroOrigenActionPerformed(evt);
             }
         });
 
-        jLabel4.setText("Codigo Aeropuerto Destino");
+        cbAeroDestino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbAeroDestinoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -169,8 +179,8 @@ public class EditarVueloBase extends javax.swing.JPanel {
                     .addComponent(txtHoraSalida, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(TxtHoraLlegada)
                     .addComponent(txtDOperacion)
-                    .addComponent(txtCodAerOrigen)
-                    .addComponent(txtCodAerDestino))
+                    .addComponent(cbAeroOrigen, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbAeroDestino, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(369, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -202,11 +212,11 @@ public class EditarVueloBase extends javax.swing.JPanel {
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtCodAerOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbAeroOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtCodAerDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbAeroDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35))
@@ -230,14 +240,20 @@ public class EditarVueloBase extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDOperacionActionPerformed
 
-    private void txtCodAerOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodAerOrigenActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCodAerOrigenActionPerformed
+    private void cbAeroOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAeroOrigenActionPerformed
+        String codigoIATAOrigen = (String) cbAeroOrigen.getSelectedItem();
+    }//GEN-LAST:event_cbAeroOrigenActionPerformed
+
+    private void cbAeroDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAeroDestinoActionPerformed
+        String codigoIATADestino = (String) cbAeroDestino.getSelectedItem();
+    }//GEN-LAST:event_cbAeroDestinoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField TxtHoraLlegada;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JComboBox<String> cbAeroDestino;
+    private javax.swing.JComboBox<String> cbAeroOrigen;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -245,8 +261,6 @@ public class EditarVueloBase extends javax.swing.JPanel {
     private javax.swing.JLabel lblCodigo;
     private javax.swing.JLabel lblMunicipio;
     private javax.swing.JLabel lblNombre;
-    private javax.swing.JTextField txtCodAerDestino;
-    private javax.swing.JTextField txtCodAerOrigen;
     private javax.swing.JTextField txtCodVuelo;
     private javax.swing.JTextField txtDOperacion;
     private javax.swing.JTextField txtHoraSalida;
@@ -254,30 +268,45 @@ public class EditarVueloBase extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void guardarVueloBase() {
-        String codigoVuelo = txtCodVuelo.getText();
-        int numeroPlazas = Integer.parseInt(txtNPlazas.getText());
+    // Verificar si el VueloBase es nulo
+    if (vueloBase == null) {
+        return; // O manejar de alguna manera que no haya un VueloBase para editar
+    }
 
-        Date horaSalida = null;
-        Date horaLlegada = null;
+    try {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        Date horaSalida = dateFormat.parse(txtHoraSalida.getText());
+        Date horaLlegada = dateFormat.parse(TxtHoraLlegada.getText());
 
-        try {
-            horaSalida = dateFormat.parse(txtHoraSalida.getText());
-            horaLlegada = dateFormat.parse(TxtHoraLlegada.getText());
-        } catch (ParseException e) {
-            // Maneja la excepción en caso de que la conversión falle.
-            e.printStackTrace();
-        }
+        // Crear una copia del VueloBase existente con los campos actualizados
+        VueloBase updatedVueloBase = new VueloBase(
+            txtCodVuelo.getText(),
+            Integer.parseInt(txtNPlazas.getText()),
+            horaSalida,
+            horaLlegada,
+            txtDOperacion.getText(),
+            (String) cbAeroOrigen.getSelectedItem(),
+            (String) cbAeroDestino.getSelectedItem()
+        );
 
-        String diasOperacion = txtDOperacion.getText();
-        String codigoAerOrigen = txtCodAerOrigen.getText();
-        String codigoAerDestino = txtCodAerDestino.getText();
+        // Actualizar el VueloBase en la lógica de negocio
+        LogicaNegocio.updateVueloBaseByCodigo(vueloBase.getCodigoVuelo(), updatedVueloBase);
 
-        VueloBase vueloBase = new VueloBase(codigoVuelo, numeroPlazas, horaSalida, horaLlegada, diasOperacion, codigoAerOrigen, codigoAerDestino);
-        LogicaNegocio.addVueloBase(vueloBase);
-
+        // Recargar los datos de vuelos base en FrmVuelosBase
         frmVuelosBase.loadVuelosBase();
 
+    } catch (ParseException e) {
+        e.printStackTrace(); // Manejar la excepción como sea apropiado
+    }
+
+    }
+
+    private void inicializarComboboxAeropuertos() {
+        List<Aeropuerto> aeropuertos = LogicaNegocio.getAllAeropuertos();
+        for (Aeropuerto aeropuerto : aeropuertos) {
+            cbAeroDestino.addItem(aeropuerto.getCodigoIATA());
+            cbAeroOrigen.addItem(aeropuerto.getCodigoIATA());
+        }
     }
 
     private void cerrarComponente() {

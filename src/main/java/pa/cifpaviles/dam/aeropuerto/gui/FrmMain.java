@@ -79,7 +79,7 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPanelesActionPerformed
 
     private void btnVuelosDiariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVuelosDiariosActionPerformed
-        // TODO add your handling code here:
+        FrmVuelosDiarios.getInstance().setVisible(true);
     }//GEN-LAST:event_btnVuelosDiariosActionPerformed
 
     private void btnCompanyasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompanyasActionPerformed

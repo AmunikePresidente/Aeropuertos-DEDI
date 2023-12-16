@@ -35,8 +35,8 @@
                   <Component id="txtHoraSalida" alignment="0" max="32767" attributes="0"/>
                   <Component id="TxtHoraLlegada" max="32767" attributes="0"/>
                   <Component id="txtDOperacion" max="32767" attributes="0"/>
-                  <Component id="txtCodAerOrigen" max="32767" attributes="0"/>
-                  <Component id="txtCodAerDestino" max="32767" attributes="0"/>
+                  <Component id="cbAeroOrigen" max="32767" attributes="0"/>
+                  <Component id="cbAeroDestino" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="369" max="32767" attributes="0"/>
           </Group>
@@ -78,12 +78,12 @@
               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtCodAerOrigen" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cbAeroOrigen" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtCodAerDestino" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cbAeroDestino" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="116" max="32767" attributes="0"/>
               <Component id="btnGuardar" min="-2" pref="36" max="-2" attributes="0"/>
@@ -150,17 +150,36 @@
         <Property name="text" type="java.lang.String" value="Codigo Aeropuerto Origen:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtCodAerOrigen">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCodAerOrigenActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
         <Property name="text" type="java.lang.String" value="Codigo Aeropuerto Destino"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtCodAerDestino">
+    <Component class="javax.swing.JComboBox" name="cbAeroOrigen">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbAeroOrigenActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cbAeroDestino">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbAeroDestinoActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

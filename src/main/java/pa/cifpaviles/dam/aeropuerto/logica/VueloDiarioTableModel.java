@@ -7,41 +7,39 @@ package pa.cifpaviles.dam.aeropuerto.logica;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import pa.cifpaviles.dam.aeropuerto.dto.VueloBase;
+import pa.cifpaviles.dam.aeropuerto.dto.VueloDiario;
 
 /**
  *
  * @author ismap
  */
-public class VuelosBaseTableModel extends AbstractTableModel {
-    List<VueloBase> lstVuelosBase;
+public class VueloDiarioTableModel extends AbstractTableModel {
+
+    List<VueloDiario> lstVuelosDiarios;
     ArrayList<String> columnNames;
     ArrayList<Class<?>> columnClasses;
 
-    public VuelosBaseTableModel(List<VueloBase> lstVuelosBase) {
-        this.lstVuelosBase = lstVuelosBase;
+    public VueloDiarioTableModel(List<VueloDiario> lstVuelosDiarios) {
+        this.lstVuelosDiarios = lstVuelosDiarios;
         columnClasses = new ArrayList<>();
         columnNames = new ArrayList<>();
-        columnNames.add("Código Vuelo");
-        columnNames.add("Número de Plazas");
+        columnNames.add("Código Vuelo Base");
+        columnNames.add("Fecha Vuelo");
         columnNames.add("Hora Salida");
         columnNames.add("Hora Llegada");
-        columnNames.add("Días de Operación");
-        columnNames.add("Código Aeropuerto Origen");
-        columnNames.add("Código Aeropuerto Destino");
+        columnNames.add("Número de Plazas Ocupadas");
+        columnNames.add("Precio Vuelo");
         columnClasses.add(String.class);
+        columnClasses.add(String.class); 
+        columnClasses.add(String.class); 
+        columnClasses.add(String.class); 
         columnClasses.add(Integer.class);
-        columnClasses.add(String.class); 
-        columnClasses.add(String.class); 
-        columnClasses.add(String.class);
-        columnClasses.add(String.class);
-        columnClasses.add(String.class);
+        columnClasses.add(Float.class);
     }
-    
 
     @Override
     public int getRowCount() {
-        return lstVuelosBase.size();
+        return lstVuelosDiarios.size();
     }
 
     @Override
@@ -51,33 +49,27 @@ public class VuelosBaseTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        VueloBase current = lstVuelosBase.get(rowIndex);
-        if (current != null
-                && columnIndex >= 0
-                && columnIndex < getColumnCount()) {
+        VueloDiario current = lstVuelosDiarios.get(rowIndex);
+        if (current != null && columnIndex >= 0 && columnIndex < getColumnCount()) {
             switch (columnIndex) {
                 case 0:
-                    return current.getCodigoVuelo();
+                    return current.getCodigoVueloBase();
                 case 1:
-                    return current.getNumeroPlazas();
+                    return current.getFechaVuelo(); // Formatear si es necesario
                 case 2:
                     return current.getHoraSalida(); // Formatear si es necesario
                 case 3:
                     return current.getHoraLlegada(); // Formatear si es necesario
                 case 4:
-                    return current.getDiasOperacion();
+                    return current.getNumeroPlazasOcupadas();
                 case 5:
-                    return current.getCodigoAeropuertoOrigen();
-                case 6:
-                    return current.getCodigoAeropuertoDestino();
+                    return current.getPrecioVuelo();
                 default:
                     return "";
             }
-
-        }
-        else
+        } else {
             return "";
-        
+        }
     }
 
     @Override
@@ -89,4 +81,5 @@ public class VuelosBaseTableModel extends AbstractTableModel {
     public Class<?> getColumnClass(int columnIndex) {
         return columnClasses.get(columnIndex);
     }
+
 }

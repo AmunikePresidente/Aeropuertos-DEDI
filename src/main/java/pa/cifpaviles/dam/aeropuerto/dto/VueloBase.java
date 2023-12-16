@@ -17,24 +17,14 @@ public class VueloBase {
     public VueloBase() {
     }
 
-    public VueloBase(String codigoVuelo, int numeroPlazas, Date horaSalida, Date horaLlegada, String diasOperacion, String codigoAeropuertoDestino, String abc) {
+    public VueloBase(String codigoVuelo, int numeroPlazas, Date horaSalida, Date horaLlegada, String diasOperacion, String codigoAeropuertoOrigen, String codigoAeropuertoDestino) {
         this.codigoVuelo = codigoVuelo;
         this.numeroPlazas = numeroPlazas;
         this.horaSalida = horaSalida;
         this.horaLlegada = horaLlegada;
         this.diasOperacion = diasOperacion;
-        this.setCodigoAeropuertoOrigen(codigoAeropuertoOrigen);
-        this.setCodigoAeropuertoDestino(codigoAeropuertoDestino);
-    }
-
-    public VueloBase(String codigoVuelo, int numeroPlazas, Date horaSalida, Date horaLlegada, String diasOperacion, Aeropuerto aeropuertoOrigen, Aeropuerto aeropuertoDestino) {
-        this.codigoVuelo = codigoVuelo;
-        this.numeroPlazas = numeroPlazas;
-        this.horaSalida = horaSalida;
-        this.horaLlegada = horaLlegada;
-        this.diasOperacion = diasOperacion;
-        this.setAeropuertoOrigen(aeropuertoOrigen);
-        this.setCodigoAeropuertoDestino(codigoAeropuertoDestino);
+        this.codigoAeropuertoOrigen = codigoAeropuertoOrigen;
+        this.codigoAeropuertoDestino = codigoAeropuertoDestino;
     }
 
     public String getCodigoVuelo() {

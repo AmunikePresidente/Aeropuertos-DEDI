@@ -15,14 +15,13 @@ public class VueloDiario {
     public VueloDiario() {
     }
 
-    public VueloDiario(String codigoVueloBase, Date fechaVuelo, Date horaSalida, Date horaLlegada, int numeroPlazasOcupadas, float precioVuelo, VueloBase vueloBase) {
+    public VueloDiario(String codigoVueloBase, Date fechaVuelo, Date horaSalida, Date horaLlegada, int numeroPlazasOcupadas, float precioVuelo) {
         this.codigoVueloBase = codigoVueloBase;
         this.fechaVuelo = fechaVuelo;
         this.horaSalida = horaSalida;
         this.horaLlegada = horaLlegada;
         this.numeroPlazasOcupadas = numeroPlazasOcupadas;
         this.precioVuelo = precioVuelo;
-        this.vueloBase = vueloBase;
     }
 
     public VueloDiario(Date fechaVuelo, Date horaSalida, Date horaLlegada, int numeroPlazasOcupadas, float precioVuelo, VueloBase vueloBase) {
@@ -91,6 +90,4 @@ public class VueloDiario {
         this.vueloBase = vueloBase;
         this.codigoVueloBase = vueloBase.getCodigoVuelo();
     } 
-    
-    
 }
